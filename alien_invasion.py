@@ -105,6 +105,10 @@ class AlienInvasion:
 
             #Ukrycie kursora myszy.
             pygame.mouse.set_visible(False)
+            
+            self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
 
     def _fire_bullet(self):
         """utworzenie nowego pocisku i dodanie go do grupy pocisków."""
@@ -152,12 +156,17 @@ class AlienInvasion:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.aliens:
             #pozbycie się istniejacych pocisków i utworzenie nowej floty.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            
+            #inkrementacja numeru poziomu
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _update_aliens(self):
         """
@@ -177,9 +186,11 @@ class AlienInvasion:
     def _ship_hit(self):
         """Reakcja na uderzenie obcego w statek."""
         if self.stats.ships_left > 0:
-            #Zmniejszenie wartosci przechowywanej w ship_left.
+            #Zmniejszenie wartosci przechowywanej w ship_left
+            #i uaktualnienie tablicy wyników.
             self.stats.ships_left -= 1
-
+            self.sb.prep_ships()
+            
             #Usunięcie zawartości listy aliens i bullets.
             self.aliens.empty()
             self.bullets.empty()
