@@ -7,7 +7,7 @@ class GameStats:
         self.reset_stats()
         #Uruchomienie gry "Inwazja Obcych" w stanie aktywnym
         self.game_active = False
-
+        #Byłem tu //potezny niszczyciel
         #Najlepszy winik nigdy nie powinien zostać wyzerowany.
         self.high_score = 0
         
